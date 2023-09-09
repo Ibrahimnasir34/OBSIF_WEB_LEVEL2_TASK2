@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Calculator</title>
+    <style>
+        /* Add CSS styling for the calculator */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e272e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            max-width: 300px;
+            background-color: #333;
+            border: 2px solid #1e272e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .screen {
+            font-size: 30px;
+            text-align: right;
+            border: none;
+            background-color: #444;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            font-size: 24px;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #1e90ff;
+            color: #fff;
+        }
+
+        button:hover {
+            background-color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="screen" id="result">0</div>
+        <div class="buttons">
+            <button onclick="addToScreen('7')">7</button>
+            <button onclick="addToScreen('8')">8</button>
+            <button onclick="addToScreen('9')">9</button>
+            <button onclick="addToScreen('+')">+</button>
+            <button onclick="addToScreen('4')">4</button>
+            <button onclick="addToScreen('5')">5</button>
+            <button onclick="addToScreen('6')">6</button>
+            <button onclick="addToScreen('-')">-</button>
+            <button onclick="addToScreen('1')">1</button>
+            <button onclick="addToScreen('2')">2</button>
+            <button onclick="addToScreen('3')">3</button>
+            <button onclick="addToScreen('*')">*</button>
+            <button onclick="addToScreen('0')">0</button>
+            <button onclick="addToScreen('.')">.</button>
+            <button onclick="addToScreen('/')">/</button>
+            <button onclick="clearScreen()">C</button>
+            <button onclick="backspace()">&#9003;</button>
+            <button onclick="openParenthesis('(')">(</button>
+            <button onclick="closeParenthesis(')')">)</button>
+            <button onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        let screenValue = "0";
+
+        function addToScreen(value) {
+            if (screenValue === "0" && value !== ".") {
+                screenValue = "";
+            }
+            screenValue += value;
+            document.getElementById("result").innerText = screenValue;
+        }
+
+        function clearScreen() {
+            screenValue = "0";
+            document.getElementById("result").innerText = screenValue;
+        }
+
+        function backspace() {
+            if (screenValue.length > 0) {
+                screenValue = screenValue.slice(0, -1);
+                document.getElementById("result").innerText = screenValue;
+            }
+        }
+
+        function openParenthesis(value) {
+            screenValue += value;
+            document.getElementById("result").innerText = screenValue;
+        }
+
+        function closeParenthesis(value) {
+            screenValue += value;
+            document.getElementById("result").innerText = screenValue;
+        }
+
+        function calculate() {
+            try {
+                screenValue = eval(screenValue);
+                document.getElementById("result").innerText = screenValue;
+            } catch (error) {
+                document.getElementById("result").innerText = "Error";
+            }
+        }
+
+        // Handle keyboard input
+        document.addEventListener("keydown", function(event) {
+            const key = event.key;
+            if (/[\d+\-*/().]/.test(key)) {
+                addToScreen(key);
+            } else if (key === "Enter") {
+                calculate();
+            } else if (key === "Backspace") {
+                backspace();
+            }
+        });
+    </script>
+</body>
+</html>
